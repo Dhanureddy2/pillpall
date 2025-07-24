@@ -23,8 +23,11 @@ interface AnalysisResult {
   error: string | null;
 }
 
+let medIdCounter = 0;
+
 export default function Home() {
-  const [medications, setMedications] = useState<Medication[]>([{ id: `med-${Date.now()}`, name: '', dosage: '' }]);
+  const idPrefix = useId();
+  const [medications, setMedications] = useState<Medication[]>([{ id: `${idPrefix}-${medIdCounter++}`, name: '', dosage: '' }]);
   const [suggestions, setSuggestions] = useState<string[]>([]);
   const [activeInput, setActiveInput] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -52,7 +55,7 @@ export default function Home() {
   }, []);
 
   const handleAddMedication = () => {
-    setMedications([...medications, { id: `med-${Date.now()}`, name: '', dosage: '' }]);
+    setMedications([...medications, { id: `${idPrefix}-${medIdCounter++}`, name: '', dosage: '' }]);
   };
 
   const handleRemoveMedication = (id: string) => {
